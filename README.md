@@ -32,9 +32,9 @@
 
 - [`Instruction模版`](Instruction模版.md)
 
-## 參考劇本
+## 劇本
 
-- [`參考劇本索引`](參考劇本/README.md)
+- [Community Scripts](https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Community-Scripts)
 
 ## 其他
 
