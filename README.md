@@ -28,6 +28,10 @@
 
 - [`劇本設計師規則`](設計/劇本設計師規則.md)
 
+## Instruction 模版
+
+- [`Instruction模版`](Instruction模版.md)
+
 ## 參考劇本
 
 - [`參考劇本索引`](參考劇本/README.md)
