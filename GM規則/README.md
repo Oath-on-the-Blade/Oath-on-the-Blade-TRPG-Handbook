@@ -6,10 +6,10 @@
 
 - `角色卡格式.md`：角色卡欄位、江湖履歷及長期資料格式；
 - `創角.md`：建立合法 1 級新 PC；
-- `開局環境.md`：開局檢查前的 persistent storage 選擇、Connector／target 設定教學及環境驗證；
+- `開局環境.md`：開局檢查前的 persistent storage 選擇、Connector／target 設定教學、ChatGPT Library 適用性、玩家下載方式及環境驗證；
 - `開局檢查.md`：角色卡／重跑履歷檢查、待選升級、連續性、隊伍配置及主持資料準備；
 - `遊戲流程.md`：已開局劇本內的主持循環、存檔、暫停／續跑及終局凍結；
-- `結算.md`：結局、參與、得失、歷練、長期特殊傷患、角色卡寫回、憑證及存檔關閉。
+- `結算.md`：結局、參與、得失、歷練、長期特殊傷患、角色卡寫回、可下載完整角色卡／憑證及存檔關閉。
 
 ## 讀取路由
 
@@ -27,7 +27,7 @@
 1. `GM規則/開局環境.md`
 2. 宿主 Instruction／系統設定及 host 已提供的 storage target（若有）
 
-Instruction 未固定 persistent storage 時，AI GM 先向 host 詢問採用 Google Drive、GitHub 或其他類近方案，再詢問 host／負責設定的玩家是否需要詳細環境教學；需要時先教導 Connector 安裝／連接、Drive 資料夾或 GitHub repo／branch 權限設定並完成驗證。Google Drive 另確認是否進入指定資料夾；GitHub 則確認 repo，但只記錄 branch 策略，不在角色通過開局檢查前建立本局 game save branch。本階段只交付 `opening_environment`，不讀角色卡、劇本或履歷。
+Instruction 未固定 persistent storage 時，AI GM 先向 host 詢問採用 Google Drive、GitHub、ChatGPT Library（如可用）或其他類近方案，再詢問 host／負責設定的玩家是否需要詳細環境教學；需要時先教導 Connector 安裝／連接、Drive 資料夾、GitHub repo／branch 權限或 Library 可用性／權限設定並完成驗證。Google Drive 另確認是否進入指定資料夾；GitHub 則確認 repo，但只記錄 branch 策略，不在角色通過開局檢查前建立本局 game save branch；Library 必須通過持久建立、重讀及更新／版本化測試，普通對話附件不算存檔。另確認結算時的玩家下載方式，並把 GM 私密 save 與玩家交付位置分開。本階段只交付 `opening_environment`，不讀角色卡、劇本或履歷。
 
 ### 檢查角色並準備開局
 讀：
@@ -55,7 +55,7 @@ AI GM 的劇本內 persistent save、NPC 姓名實例化、跨劇本 NPC 回憶�
 3. 本次劇本、凍結的本 `game_id` 存檔
 4. 按需要讀 `遊玩規則/10_升級探索與NPC.md`、相關絕活／武學／物品條目
 
-結算只能在 `遊戲流程.md` 已凍結終局並由宿主／系統切換階段後開始。長期特殊傷患、江湖履歷、角色卡寫回、`settlement_receipt`、驗證與存檔清理由 `結算.md` 規範。
+結算只能在 `遊戲流程.md` 已凍結終局並由宿主／系統切換階段後開始。長期特殊傷患、江湖履歷、角色卡寫回、`settlement_receipt`、每名 PC 的完整可下載角色卡、玩家存取驗證與存檔清理由 `結算.md` 規範。只有摘要、差異或 GM 私人檔案不算交付。
 
 ## 裁定優先順序
 
