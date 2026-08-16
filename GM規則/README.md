@@ -2,11 +2,12 @@
 
 本目錄是《武與俠》TRPG 的主持規則入口。**遊玩機制本身**以 `遊玩規則/` 為準；武學、毒藥、丹藥、裝備與敵人優先引用 `內容庫/`。劇本製作與驗收另見 `劇本設計規則/README.md`。
 
-本目錄按工作階段與資料責任拆成五份權威文件：
+本目錄按工作階段與資料責任拆成六份權威文件：
 
 - `角色卡格式.md`：角色卡欄位、江湖履歷及長期資料格式；
 - `創角.md`：建立合法 1 級新 PC；
-- `開局檢查.md`：AI GM 開局環境、persistent storage 選擇與設定教學、角色卡／重跑履歷檢查、待選升級、連續性、隊伍配置及主持資料準備；
+- `開局環境.md`：開局檢查前的 persistent storage 選擇、Connector／target 設定教學及環境驗證；
+- `開局檢查.md`：角色卡／重跑履歷檢查、待選升級、連續性、隊伍配置及主持資料準備；
 - `遊戲流程.md`：已開局劇本內的主持循環、存檔、暫停／續跑及終局凍結；
 - `結算.md`：結局、參與、得失、歷練、長期特殊傷患、角色卡寫回、憑證及存檔關閉。
 
@@ -21,14 +22,22 @@
 
 已有角色進入新劇本時，不讀 `創角.md` 重建角色；依 `開局檢查.md` 處理。
 
+### 設定 AI GM 開局環境
+讀：
+1. `GM規則/開局環境.md`
+2. 宿主 Instruction／系統設定及 host 已提供的 storage target（若有）
+
+Instruction 未固定 persistent storage 時，AI GM 先向 host 詢問採用 Google Drive、GitHub 或其他類近方案，再詢問 host／負責設定的玩家是否需要詳細環境教學；需要時先教導 Connector 安裝／連接、Drive 資料夾或 GitHub repo／branch 權限設定並完成驗證。Google Drive 另確認是否進入指定資料夾；GitHub 則確認 repo，但只記錄 branch 策略，不在角色通過開局檢查前建立本局 game save branch。本階段只交付 `opening_environment`，不讀角色卡、劇本或履歷。
+
 ### 檢查角色並準備開局
 讀：
 1. `GM規則/開局檢查.md`
 2. `GM規則/角色卡格式.md`
-3. 本次劇本
-4. 按需要讀 `遊玩規則/` 與 `內容庫/`
+3. 已驗證的 `opening_environment`
+4. 本次劇本
+5. 按需要讀 `遊玩規則/` 與 `內容庫/`
 
-Instruction 未固定 persistent storage 時，AI GM 先向 host 詢問採用 Google Drive、GitHub 或其他類近方案，再詢問 host／負責設定的玩家是否需要詳細環境教學；需要時先教導 Connector 安裝／連接、Drive 資料夾或 GitHub repo／branch 權限設定並完成驗證。Google Drive 另確認是否進入指定資料夾，GitHub 則確認 repo 並在角色通過檢查後建立本局臨時 game save branch。新 `game_id` 建立前的 storage target、角色卡合法性、待選升級、重跑履歷、連續性與主持資料載入，均由 `開局檢查.md` 規範。
+本階段不選擇或設定 storage。新 `game_id` 建立前的角色卡合法性、待選升級、重跑履歷、連續性與主持資料載入，均由 `開局檢查.md` 規範；角色全部合資格後才依 `opening_environment` 建立本局 namespace／GitHub 臨時 branch。
 
 ### 主持或續跑已開局劇本
 讀：
