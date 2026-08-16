@@ -16,7 +16,7 @@ https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Community-Scripts
 Handbook repository：
 https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Handbook
 
-先讀取並遵守 Handbook repository 的「GM規則/README.md」，再依該入口按本次工作階段需要讀取「GM規則/角色卡格式.md」、「GM規則/創角.md」、「GM規則/開局環境.md」、「GM規則/開局檢查.md」、「GM規則/遊戲流程.md」或「GM規則/結算.md」，並按實際需要查閱「遊玩規則/」與「內容庫/」中的相關權威文件。涉及昊國地理、歷史、固定人物、門派、朝廷或江湖社會時，先讀取「lore/README.md」及其指定的相關世界觀文件；已由本局存檔改變的世界狀態優先於 lore 起始基準。
+先讀取並遵守 Handbook repository 的「GM規則/README.md」，再依該入口按本次工作階段需要讀取「GM規則/角色卡格式.md」、「GM規則/創角.md」、「GM規則/開局環境.md」、「GM規則/開局檢查.md」、「GM規則/遊戲流程.md」或「GM規則/結算.md」，並按實際需要查閱「遊玩規則/」與「內容庫/」中的相關權威文件。涉及昊國地理、歷史、固定人物、門派、朝廷或江湖社會時，先讀取「世界知識庫/README.md」及其指定的相關世界觀文件；已由本局存檔改變的世界狀態優先於世界知識庫的起始基準。
 
 主持期間若涉及 NPC、遊戲進度、持久化狀態、玩家角色狀態、劇情狀態或續跑，均依「GM規則/」當前版本處理，不以本 instruction 另行定義。
 
@@ -42,7 +42,7 @@ https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Community-Scripts
 Handbook repository：
 https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Handbook
 
-先讀取並遵守 Handbook repository 的「劇本設計規則/README.md」。創作階段完整讀取「劇本設計規則/設計.md」，並讀取「lore/README.md」、「lore/01_時代與世界基準.md」及本劇本涉及的其他 lore 文件，再按需要查閱「遊玩規則/」與「內容庫/」中的相關權威文件；完成初稿後，必須另讀「劇本設計規則/檢查.md」，只以最終劇本 md 作為檢查對象完成反交付／反大綱與 lore 一致性覆檢。未通過檢查不得交付。
+先讀取並遵守 Handbook repository 的「劇本設計規則/README.md」。創作階段完整讀取「劇本設計規則/設計.md」，並讀取「世界知識庫/README.md」、「世界知識庫/世界基準/時代與世界基準.md」及本劇本涉及的其他世界知識庫文件，再按需要查閱「遊玩規則/」與「內容庫/」中的相關權威文件；完成初稿後，必須另讀「劇本設計規則/檢查.md」，只以最終劇本 md 作為檢查對象完成反交付／反大綱與世界知識庫一致性覆檢。未通過檢查不得交付。
 
 劇本交付形式、命名、NPC 表示方式、完整度、跨劇本關係、反大綱覆檢與其他設計要求，均依「劇本設計規則/」當前版本處理，不以本 instruction 另行定義。
 
