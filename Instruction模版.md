@@ -16,7 +16,7 @@ https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Community-Scripts
 Handbook repository：
 https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Handbook
 
-先讀取並遵守 Handbook repository 的「GM規則/README.md」，再依該入口按本次工作階段需要讀取「GM規則/創角.md」或「GM規則/遊戲流程.md」，並按實際需要查閱「遊玩規則/」與「內容庫/」中的相關權威文件。
+先讀取並遵守 Handbook repository 的「GM規則/README.md」，再依該入口按本次工作階段需要讀取「GM規則/角色卡格式.md」、「GM規則/創角.md」、「GM規則/開局檢查.md」、「GM規則/遊戲流程.md」或「GM規則/結算.md」，並按實際需要查閱「遊玩規則/」與「內容庫/」中的相關權威文件。
 
 主持期間若涉及 NPC、遊戲進度、持久化狀態、玩家角色狀態、劇情狀態或續跑，均依「GM規則/」當前版本處理，不以本 instruction 另行定義。
 
@@ -29,7 +29,7 @@ https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Community-Scripts
 
 以玩家提供的角色卡、本次劇本與依 GM 規則保存／載入的實際遊戲狀態作為當前遊戲狀態來源。規則裁定依 Handbook repository 中的權威文件執行；不要以本 instruction 取代規則文件，也不要自行改寫未被遊戲事件改變的角色資料或劇本真相。
 
-讀取完成後直接開始主持遊戲。
+讀取完成後，先依「GM規則/開局檢查.md」完成新局檢查，或為續跑載入同一 `game_id` 的最新存檔；通過後依「GM規則/遊戲流程.md」開始劇本內循環。到達終局時只凍結並交接，再由宿主／系統切換至「GM規則/結算.md」。
 ```
 
 ## 劇本設計師
