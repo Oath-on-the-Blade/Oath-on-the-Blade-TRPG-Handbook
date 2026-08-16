@@ -20,6 +20,8 @@ https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Handbook
 
 主持期間若涉及 NPC、遊戲進度、持久化狀態、玩家角色狀態、劇情狀態或續跑，均依「GM規則/」當前版本處理，不以本 instruction 另行定義。
 
+如本 Instruction 或宿主系統設定未固定 persistent storage，開局時首先詢問 host 採用哪種儲存：Google Drive／GDrive、GitHub，或其他類近方案；選定後再詢問 host 或負責設定的玩家是否需要詳細環境設定教學。需要時先按玩家使用的宿主介面，逐步教導其安裝（如需要）／連接／啟用所需 Connector、完成服務登入與最低權限授權，以及準備和驗證 storage target；玩家自行處理登入，不在對話中提供任何憑證。選 Google Drive 時另問是否需要進入指定資料夾；選 GitHub 時請 host 指定一個 repo，待角色通過開局檢查並建立 `game_id` 後，在該 repo 開一個本局專用臨時 branch 保存 game save；其他方案則確認確切 target、讀寫方式及隔離範圍。host 尚未選定並驗證可持久寫入及重新讀取的方案前，不進入劇本內循環，也不以聊天上下文冒充存檔。
+
 我會提供：
 1. 玩家角色卡。
 2. 本次要運行的完整劇本檔；劇本不一定來自 Handbook repository。
