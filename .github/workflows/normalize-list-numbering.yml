@@ -28,12 +28,9 @@ jobs:
 
           BASE = 'cfd4dcf639aef6bb74a4a19879b9c877d731a609'
 
-          # Undo the overly broad first pass for every Markdown document. Rule/procedure
-          # section numbers are intentionally restored because prose refers to them.
-          md_paths = subprocess.check_output(
-              ['git', 'ls-tree', '-r', '--name-only', BASE], text=True
-          ).splitlines()
-          md_paths = [p for p in md_paths if p.endswith('.md')]
+          # Use NUL-separated paths so Git never quote-escapes Chinese filenames.
+          raw = subprocess.check_output(['git', 'ls-tree', '-rz', '--name-only', BASE])
+          md_paths = [p.decode('utf-8') for p in raw.split(b'\0') if p and p.decode('utf-8').endswith('.md')]
           for i in range(0, len(md_paths), 100):
               subprocess.run(['git', 'checkout', BASE, '--', *md_paths[i:i+100]], check=True)
 
@@ -87,8 +84,8 @@ jobs:
           ordered_to_bullets('內容庫/README.md')
           ordered_to_bullets('世界知識庫/README.md')
 
-          # World-knowledge catalogue files may safely drop heading ordinals only when
-          # they do not themselves rely on numeric section references.
+          # World-knowledge catalogue files may drop heading ordinals when they do not
+          # internally rely on numeric section references.
           catalogue_files = [
               '世界知識庫/人物/江湖人物與武學源流.md',
               '世界知識庫/勢力/商會鏢局與幫會.md',
@@ -112,16 +109,12 @@ jobs:
                   '\n## Markdown 編排原則\n\n'
                   '- 純枚舉、目錄與可獨立插入的條目，使用項目符號或穩定名稱標題，不使用會因中途插入而令後續全部順延的序號。只有順序本身具有流程、優先級、階段或規則機械意義時，才使用數字序號；等級、DC、次數、距離、資源等規則數值不受此限制。\n'
               )
-              # Put the convention before the final "其他" utility section.
               anchor = '\n## 其他\n'
-              if anchor in original:
-                  new = original.replace(anchor, addition + anchor, 1)
-              else:
-                  new = original + addition
+              new = original.replace(anchor, addition + anchor, 1) if anchor in original else original + addition
               readme.write_text(new, encoding='utf-8')
               changed.add('README.md')
 
-          print('FINAL CHANGED FILES')
+          print('FINAL NORMALIZED FILES')
           for p in sorted(changed):
               print(p)
 
@@ -145,7 +138,7 @@ jobs:
       - name: Commit refined normalization
         shell: bash
         run: |
-          if git diff --quiet; then
+          if git diff --quiet && git diff --cached --quiet; then
             echo "No changes"
             exit 0
           fi
