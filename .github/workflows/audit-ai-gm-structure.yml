@@ -1,0 +1,170 @@
+name: Audit AI GM handbook structure
+
+on:
+  push:
+    branches:
+      - audit/ai-gm-handbook-structure
+    paths:
+      - .github/workflows/audit-ai-gm-structure.yml
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate structural audit
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from collections import defaultdict
+          import hashlib, re
+
+          root = Path('.')
+          md_files = sorted(p for p in root.rglob('*.md') if '.git' not in p.parts)
+          rows = []
+          headings = {}
+          text_by_path = {}
+          links_out = defaultdict(set)
+          backlinks = defaultdict(set)
+          broken = []
+
+          link_re = re.compile(r'\[[^\]]*\]\(([^)]+\.md(?:#[^)]+)?)\)|`([^`]+\.md)`')
+          heading_re = re.compile(r'^(#{1,6})\s+(.+?)\s*$')
+
+          for p in md_files:
+              text = p.read_text(encoding='utf-8')
+              text_by_path[p.as_posix()] = text
+              lines = text.splitlines()
+              hs = [(i+1, len(m.group(1)), m.group(2)) for i,l in enumerate(lines) if (m := heading_re.match(l))]
+              headings[p.as_posix()] = hs
+              rows.append((len(text.encode('utf-8')), len(lines), p.as_posix(), len(hs)))
+
+              for m in link_re.finditer(text):
+                  raw = m.group(1) or m.group(2)
+                  if not raw or '://' in raw:
+                      continue
+                  target = raw.split('#',1)[0]
+                  # Backtick references are repository-root paths in this repo; Markdown links are relative.
+                  if m.group(2):
+                      dest = (root / target).resolve()
+                  else:
+                      dest = (p.parent / target).resolve()
+                  try:
+                      rel = dest.relative_to(root.resolve()).as_posix()
+                  except ValueError:
+                      broken.append((p.as_posix(), raw, 'outside repo'))
+                      continue
+                  links_out[p.as_posix()].add(rel)
+                  backlinks[rel].add(p.as_posix())
+                  if not dest.exists():
+                      broken.append((p.as_posix(), raw, 'missing'))
+
+          # Exact duplicate paragraphs, ignoring tiny navigation fragments and separators.
+          dup = defaultdict(list)
+          for path, text in text_by_path.items():
+              paras = re.split(r'\n\s*\n', text)
+              for para in paras:
+                  norm = re.sub(r'\s+', ' ', para).strip()
+                  if len(norm) < 120 or norm.startswith('#') or norm.startswith('|'):
+                      continue
+                  key = hashlib.sha1(norm.encode('utf-8')).hexdigest()
+                  dup[key].append((path, norm))
+          dup_groups = []
+          for items in dup.values():
+              paths = sorted({p for p,_ in items})
+              if len(paths) >= 2:
+                  dup_groups.append((len(items[0][1]), paths, items[0][1]))
+          dup_groups.sort(reverse=True)
+
+          rows.sort(reverse=True)
+          large = [r for r in rows if r[0] >= 15000]
+          short = [r for r in rows if r[0] <= 1200]
+          unreferenced = []
+          for _,_,p,_ in rows:
+              if p in {'README.md'} or p.endswith('/README.md'):
+                  continue
+              if not backlinks.get(p):
+                  unreferenced.append(p)
+
+          out = []
+          out.append('# AI GM 手冊結構自動掃描')
+          out.append('')
+          out.append('此檔由審查 branch 的臨時 workflow 產生，只用於本輪結構審查。')
+          out.append('')
+          out.append('## 摘要')
+          out.append('')
+          out.append(f'- Markdown 檔案：{len(md_files)}')
+          out.append(f'- 15 KB 以上長檔：{len(large)}')
+          out.append(f'- 1.2 KB 以下短檔：{len(short)}')
+          out.append(f'- 沒有任何其他 Markdown 檔引用的非 README：{len(unreferenced)}')
+          out.append(f'- 可解析的壞 `.md` 連結：{len(broken)}')
+          out.append(f'- 跨檔完全相同且至少 120 字的段落群：{len(dup_groups)}')
+          out.append('')
+          out.append('## 最大檔案')
+          out.append('')
+          out.append('| bytes | lines | headings | file | backlinks |')
+          out.append('|---:|---:|---:|---|---:|')
+          for b,l,p,h in rows[:30]:
+              out.append(f'| {b} | {l} | {h} | `{p}` | {len(backlinks.get(p,()))} |')
+          out.append('')
+          out.append('## 15 KB 以上長檔章節')
+          out.append('')
+          for b,l,p,h in large:
+              out.append(f'### `{p}` — {b} bytes / {l} lines')
+              out.append('')
+              for ln,level,title in headings[p]:
+                  if level <= 3:
+                      out.append(f'- L{ln}: {"#"*level} {title}')
+              out.append('')
+          out.append('## 1.2 KB 以下短檔')
+          out.append('')
+          for b,l,p,h in sorted(short):
+              out.append(f'- `{p}` — {b} bytes / {l} lines / {h} headings / backlinks {len(backlinks.get(p,()))}')
+          out.append('')
+          out.append('## 無 Markdown backlinks 的非 README')
+          out.append('')
+          for p in unreferenced:
+              out.append(f'- `{p}`')
+          out.append('')
+          out.append('## 壞連結')
+          out.append('')
+          if broken:
+              for src,raw,why in broken:
+                  out.append(f'- `{src}` → `{raw}` ({why})')
+          else:
+              out.append('- 無')
+          out.append('')
+          out.append('## 跨檔完全重覆段落（前 30 群）')
+          out.append('')
+          if not dup_groups:
+              out.append('- 無')
+          for n,paths,para in dup_groups[:30]:
+              out.append(f'### {n} 字元；{len(paths)} 檔')
+              out.append('')
+              for p in paths:
+                  out.append(f'- `{p}`')
+              preview = para[:500].replace('|','\\|')
+              out.append('')
+              out.append(f'> {preview}')
+              out.append('')
+
+          report = root / '審查' / 'AI_GM手冊結構自動掃描.md'
+          report.parent.mkdir(parents=True, exist_ok=True)
+          report.write_text('\n'.join(out) + '\n', encoding='utf-8')
+          PY
+
+      - name: Commit audit report
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add 審查/AI_GM手冊結構自動掃描.md
+          git commit -m "audit: scan handbook structure for AI GM"
+          git push origin HEAD:audit/ai-gm-handbook-structure
