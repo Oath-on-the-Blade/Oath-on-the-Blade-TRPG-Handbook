@@ -66,6 +66,10 @@
 
 - [Community Scripts](https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Community-Scripts)
 
+## Markdown 編排原則
+
+- 純枚舉、目錄與可獨立插入的條目，使用項目符號或穩定名稱標題，不使用會因中途插入而令後續全部順延的序號。只有順序本身具有流程、優先級、階段或規則機械意義時，才使用數字序號；等級、DC、次數、距離、資源等規則數值不受此限制。
+
 ## 其他
 
 - [`LICENSE`](LICENSE)
