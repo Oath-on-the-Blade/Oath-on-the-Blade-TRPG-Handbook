@@ -400,7 +400,7 @@ for p in md_files:
             continue
         key = hashlib.sha1(norm.encode('utf-8')).hexdigest()
         groups.setdefault(key, [norm, set()])[1].add(p.as_posix())
-dups = sorted((len(v[0]), sorted(v[1]), v[0]) for v in groups.values() if len(v[1]) > 1, reverse=True)
+dups = sorted(((len(v[0]), sorted(v[1]), v[0]) for v in groups.values() if len(v[1]) > 1), reverse=True)
 
 largest = '\n'.join(f'- `{p}` — {b} bytes / {l} 行' for b, l, p in sizes[:10])
 report = f'''# Handbook 完整性與 AI GM 審查
