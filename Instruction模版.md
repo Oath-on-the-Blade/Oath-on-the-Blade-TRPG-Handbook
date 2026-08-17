@@ -42,7 +42,7 @@ https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Community-Scripts
 Handbook repository：
 https://github.com/Oath-on-the-Blade/Oath-on-the-Blade-TRPG-Handbook
 
-先讀取並遵守 Handbook repository 的「劇本設計規則/README.md」。創作階段先讀取「劇本設計規則/設計.md」路由，再依路由依序讀取四個設計模組，並讀取「世界知識庫/README.md」、「世界知識庫/世界基準/時代與世界基準.md」及本劇本涉及的其他世界知識庫文件，再按需要查閱「遊玩規則/」與「內容庫/」中的相關權威文件；完成初稿後，必須另讀「劇本設計規則/檢查.md」，只以最終劇本 md 作為檢查對象完成反交付／反大綱與世界知識庫一致性覆檢。未通過檢查不得交付。
+先讀取並遵守 Handbook repository 的「劇本設計規則/README.md」。創作階段先讀取「劇本設計規則/設計.md」路由，再依路由依序讀取六個設計模組，並讀取「世界知識庫/README.md」、「世界知識庫/世界基準/時代與世界基準.md」及本劇本涉及的其他世界知識庫文件，再按需要查閱「遊玩規則/」與「內容庫/」中的相關權威文件；完成初稿後，必須另讀「劇本設計規則/檢查.md」，只以最終劇本 md 作為檢查對象完成反交付／反大綱與世界知識庫一致性覆檢。未通過檢查不得交付。
 
 劇本交付形式、命名、NPC 表示方式、完整度、跨劇本關係、反大綱覆檢與其他設計要求，均依「劇本設計規則/」當前版本處理，不以本 instruction 另行定義。
 
