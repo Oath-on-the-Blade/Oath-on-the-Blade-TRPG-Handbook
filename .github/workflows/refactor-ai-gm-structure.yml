@@ -18,7 +18,19 @@ jobs:
         with:
           fetch-depth: 0
       - name: Run structural refactor
-        run: python .github/scripts/refactor_ai_gm_structure.py
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('.github/scripts/refactor_ai_gm_structure.py')
+          s = p.read_text(encoding='utf-8')
+          old = "dups = sorted((len(v[0]), sorted(v[1]), v[0]) for v in groups.values() if len(v[1]) > 1, reverse=True)"
+          new = "dups = sorted(((len(v[0]), sorted(v[1]), v[0]) for v in groups.values() if len(v[1]) > 1), reverse=True)"
+          if old not in s:
+              raise SystemExit('expected syntax line not found')
+          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          PY
+          python .github/scripts/refactor_ai_gm_structure.py
       - name: Commit refactor
         shell: bash
         run: |
