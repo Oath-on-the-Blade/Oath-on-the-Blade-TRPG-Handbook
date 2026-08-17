@@ -1,0 +1,119 @@
+name: Normalize list numbering
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/normalize-list-numbering.yml
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove non-semantic numbering
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path('.')
+          heading_re = re.compile(
+              r'^(#{1,6})([ \t]+)(?:(?:\d+(?:\.\d+)+)|(?:\d+[.)、])|(?:[一二三四五六七八九十百千]+[、.]))[ \t]*(.+?)\s*$'
+          )
+          ordered_re = re.compile(r'^(\s*)\d+\.\s+(.*)$')
+
+          changed = []
+
+          for path in sorted(root.rglob('*.md')):
+              text = path.read_text(encoding='utf-8')
+              lines = text.splitlines()
+              out = []
+              did_change = False
+
+              # Pure ordinal prefixes on Markdown headings are presentation-only.
+              for line in lines:
+                  m = heading_re.match(line)
+                  if m:
+                      line = f'{m.group(1)}{m.group(2)}{m.group(3)}'
+                      did_change = True
+                  out.append(line)
+
+              # These two catalogue files use ordered-list syntax only as enumeration,
+              # not as a procedure. Use bullets so insertion does not renumber later lines.
+              if path.as_posix() in {'內容庫/README.md', '內容庫/相對名譽對象.md'}:
+                  new_out = []
+                  for line in out:
+                      m = ordered_re.match(line)
+                      if m:
+                          line = f'{m.group(1)}- {m.group(2)}'
+                          did_change = True
+                      new_out.append(line)
+                  out = new_out
+
+              # In high-level advancement, the first numbered block is a set of
+              # independent constraints; the later "按以下順序" block is genuinely ordered.
+              if path.as_posix() == '遊玩規則/角色/高等成長.md':
+                  new_out = []
+                  in_constraints = False
+                  for line in out:
+                      if line.strip() == '每個高等絕活節點：':
+                          in_constraints = True
+                          new_out.append(line)
+                          continue
+                      if in_constraints and line.startswith('高等絕活的主要用途是'):
+                          in_constraints = False
+                      if in_constraints:
+                          m = ordered_re.match(line)
+                          if m:
+                              line = f'{m.group(1)}- {m.group(2)}'
+                              did_change = True
+                      new_out.append(line)
+                  out = new_out
+
+              new_text = '\n'.join(out)
+              if text.endswith('\n'):
+                  new_text += '\n'
+              if did_change and new_text != text:
+                  path.write_text(new_text, encoding='utf-8')
+                  changed.append(path.as_posix())
+
+          print('CHANGED FILES')
+          for p in changed:
+              print(p)
+
+          print('\nREMAINING ORDERED-LIST MARKERS')
+          for path in sorted(root.rglob('*.md')):
+              for lineno, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
+                  if ordered_re.match(line):
+                      print(f'{path.as_posix()}:{lineno}:{line}')
+
+          print('\nREMAINING NUMBERED-HEADING CANDIDATES')
+          suspicious_heading = re.compile(r'^#{1,6}\s+(?:\d|[一二三四五六七八九十百千]+[、.])')
+          for path in sorted(root.rglob('*.md')):
+              for lineno, line in enumerate(path.read_text(encoding='utf-8').splitlines(), 1):
+                  if suspicious_heading.match(line):
+                      print(f'{path.as_posix()}:{lineno}:{line}')
+          PY
+
+      - name: Commit normalization
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add '*.md' '**/*.md' 2>/dev/null || true
+          git add -u
+          git commit -m "docs: remove non-semantic list numbering"
+          git push origin HEAD:main
