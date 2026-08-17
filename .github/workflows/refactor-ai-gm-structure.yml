@@ -18,7 +18,10 @@ jobs:
         with:
           fetch-depth: 0
       - name: Verify and finalize structure
-        run: python .github/scripts/finalize_ai_gm_structure.py
+        shell: bash
+        run: |
+          rm -f 審查/Handbook完整性與AI_GM審查.md
+          python .github/scripts/finalize_ai_gm_structure.py
       - name: Commit final structure
         shell: bash
         run: |
